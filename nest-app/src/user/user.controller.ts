@@ -19,7 +19,7 @@ export class UserController
     }
 
     @Get(':userid')
-    public async getOneById(@Param('userid')userid)
+    public async getOneById(@Param('userid') userid: number)
     {
         return await this.userService.getOneById(userid)
     }
