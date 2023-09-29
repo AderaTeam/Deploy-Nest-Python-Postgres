@@ -72,7 +72,7 @@ export class TestService {
 
             answers[value][data[value]].forEach(trait => {
                 Logger.log(trait)
-                result[trait] += 1/(answers[value].length)
+                result[trait] += 1/(answers[value][data[value]].length)
             });
         }
         const type = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
