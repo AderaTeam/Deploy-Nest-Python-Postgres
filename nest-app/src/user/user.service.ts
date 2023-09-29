@@ -24,7 +24,7 @@ export class UserService {
         if (await this.userRepository.findOne({where:{email: userDto.email}}))
         {
             console.log (await this.userRepository.findOne({where:{email: userDto.email}}))
-            throw new BadRequestException("User already exists")
+            throw new BadRequestException("User with this email already exists")
         }
         const currentUser = this.userRepository.create({email: userDto.email, password: hash, username: userDto.username})
         await this.userRepository.insert(currentUser)

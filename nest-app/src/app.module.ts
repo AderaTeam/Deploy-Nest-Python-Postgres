@@ -4,6 +4,7 @@ import { databaseProviders } from './database.providers';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { UserModule } from './user/user.module';
+import { TestService } from './test/test.service';
 
 @Module({
   imports: [UserModule,
@@ -15,6 +16,6 @@ import { UserModule } from './user/user.module';
             }),
             ],
   controllers: [],
-  providers: [...databaseProviders],
+  providers: [...databaseProviders, TestService],
 })
 export class AppModule {}
