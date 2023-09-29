@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:16.0
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: breakdb
+    ports:
+      - 5432:5432
+    restart: "always"
+    volumes:
+      #- ./postgres/data:/docker-entrypoint-initdb.d/
+      - ./postgres/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  nest:
+    depends_on:
+      - postgres
+    image: node:20
+    environment:
+      DATABASE_HOST: postgres
+    restart: "always"
+    volumes:
+      - ./nest-app/:/nest-app/
+    ports:
+      - 8000:8000
+    working_dir: /nest-app/
+    command: npm install 
+    entrypoint: npm run start
+    links:
+      - "postgres:database"
+  py:
+    image: python
+    volumes: 
+      - ./python:/app/
+    working_dir: /app
+    command:
+      bash -c "pip install -r ./dependencies
+      && cd app 
+      && gunicorn -k uvicorn.workers.UvicornWorker main:app -b :80"
+    ports:
+      - 8003:80
+

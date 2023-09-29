@@ -1,0 +1,3 @@
+nest-app/dist
+nest-app/node_modules
+/postgres/postgres_data
