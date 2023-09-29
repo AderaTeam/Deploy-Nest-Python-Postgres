@@ -6,13 +6,14 @@ import { jwtConstants } from './constants';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),
+  imports: [UserModule,
+            ConfigModule.forRoot(),
             JwtModule.register({
               global: true,
               secret: jwtConstants.secret,
               signOptions: { expiresIn: '60d' },
             }),
-            UserModule],
+            ],
   controllers: [],
   providers: [...databaseProviders],
 })
