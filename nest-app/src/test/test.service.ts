@@ -68,7 +68,7 @@ export class TestService {
         for (const value in data)
         {
             Logger.log(value)
-            for (const trait in answers[value])
+            for (const trait in answers[value][data[value]])
             {
                 Logger.log("Trait: " + trait)
                 Logger.log("result[trait]: " + result[trait])
