@@ -62,7 +62,7 @@ export class UserService {
     {
         const userData = this.jwtService.verify(jwt)
 
-        return new UserResponseDto(await this.userRepository.findOne({where:{id: userData.id}}))
+        return {user: new UserResponseDto(await this.userRepository.findOne({where:{id: userData.id}}))}
     }
 
     public async getAll()
