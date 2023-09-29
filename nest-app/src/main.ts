@@ -5,6 +5,7 @@ import "reflect-metadata"
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
+    credentials: true,
     origin:[
       "http://localhost:5173",
       "http://127.0.0.1:5173",
