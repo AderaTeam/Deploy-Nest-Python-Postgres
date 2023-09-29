@@ -1,6 +1,5 @@
 import { Body, Controller, Post, Request } from '@nestjs/common';
 import { TestService } from './test.service';
-import { Reflector } from '@nestjs/core';
 
 @Controller('test')
 export class TestController {

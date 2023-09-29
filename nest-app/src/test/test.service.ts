@@ -63,19 +63,22 @@ export class TestService {
             "0": ["Осторожный кролик"],
             "1": ["Предприимчивый кролик"],
             "2": ["Открытый кролик", "Смелый кролик"]
-}
-}
+        }
+        }
         for (const value in data)
         {
+            Logger.log(value)
             for (const trait in answers[value])
             {
+                Logger.log("Trait: " + trait)
+                Logger.log("result[trait]: " + result[trait])
                 result[trait] += 1/(answers[value].length)
             }
         }
         const type = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
 
         Logger.log(result)
-        
+
         const userid = this.jwtService.verify(jwt).id
 
         return this.userService.updateOne({type: type} as UserUpdateDto, userid)
