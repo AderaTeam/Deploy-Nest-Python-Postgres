@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from 'src/dtos/user.dto';
 import { UserSigninDto } from 'src/dtos/userSignin.dto';
 import { UserUpdateDto } from 'src/dtos/userUpdate.dto';
+import { UserGuard } from './user.guard';
 
 @Controller('user')
 export class UserController
@@ -17,8 +18,8 @@ export class UserController
         return await this.userService.getAll()
     }
 
-    @Get(':id')
-    public async getOneById(@Param('id')userid)
+    @Get(':userid')
+    public async getOneById(@Param('userid')userid)
     {
         return await this.userService.getOneById(userid)
     }
@@ -33,15 +34,17 @@ export class UserController
     {
         return await this.userService.signin(userDto)
     }
-
-    @Post(':id')
-    public async updateOne(@Param('id') userid: number, @Body() userDto: UserUpdateDto)
+    
+    @UseGuards(UserGuard)
+    @Post(':userid')
+    public async updateOne(@Param('userid') userid: number, @Body() userDto: UserUpdateDto)
     {
         return await this.userService.updateOne(userDto, userid)
     }
 
-    @Delete(':id')
-    public async deleteOne(@Param('id') userid)
+    @UseGuards(UserGuard)
+    @Delete(':userid')
+    public async deleteOne(@Param('userid') userid)
     {
         return await this.userService.deleteOne(userid)
     }
