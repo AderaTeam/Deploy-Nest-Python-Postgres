@@ -58,6 +58,13 @@ export class UserService {
         return new UserResponseDto(await this.userRepository.findOne({where:{id: id}}))
     }
 
+    public async getOneByJwt(jwt: string)
+    {
+        const userData = this.jwtService.verify(jwt)
+
+        return new UserResponseDto(await this.userRepository.findOne({where:{id: userData.id}}))
+    }
+
     public async getAll()
     {
         const users = await this.userRepository.find()
@@ -78,4 +85,6 @@ export class UserService {
     {
         return await this.userRepository.delete(id)
     }
+
+
 }
