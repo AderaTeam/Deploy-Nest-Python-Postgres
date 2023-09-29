@@ -23,6 +23,12 @@ export class UserController
     {
         return await this.userService.getOneById(userid)
     }
+
+    @Post('/access/:token')
+    public async getOneByAccessToken(@Body('token')token)
+    {
+        return await this.userService.getOneByJwt(token)
+    }
     @Post()
     public async createOne(@Body() userDto: UserDto)
     {
@@ -34,7 +40,7 @@ export class UserController
     {
         return await this.userService.signin(userDto)
     }
-    
+
     @UseGuards(UserGuard)
     @Post(':userid')
     public async updateOne(@Param('userid') userid: number, @Body() userDto: UserUpdateDto)
