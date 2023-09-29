@@ -74,6 +74,8 @@ export class TestService {
         }
         const type = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
 
+        console.log(result)
+
         const userid = this.jwtService.verify(jwt).id
 
         return this.userService.updateOne({type: type} as UserUpdateDto, userid)
