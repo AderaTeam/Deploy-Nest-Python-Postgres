@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserUpdateDto } from 'src/dtos/userUpdate.dto';
 import { UserService } from 'src/user/user.service';
@@ -74,8 +74,8 @@ export class TestService {
         }
         const type = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
 
-        console.log(result)
-
+        Logger.log(result)
+        
         const userid = this.jwtService.verify(jwt).id
 
         return this.userService.updateOne({type: type} as UserUpdateDto, userid)
