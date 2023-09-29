@@ -24,8 +24,8 @@ export class UserController
         return await this.userService.getOneById(userid)
     }
 
-    @Post('/access/:token')
-    public async getOneByAccessToken(@Body('token')token)
+    @Get('/access/:token')
+    public async getOneByAccessToken(@Param('token')token: string)
     {
         return await this.userService.getOneByJwt(token)
     }
