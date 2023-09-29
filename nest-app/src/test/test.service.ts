@@ -68,12 +68,12 @@ export class TestService {
         for (const value in data)
         {
             Logger.log(value)
-            for (const trait in ((answers[value])[data[value]]))
-            {
-                Logger.log("Trait: " + trait)
-                Logger.log("result[trait]: " + result[trait])
+
+
+            answers[value][data[value]].forEach(trait => {
+                Logger.log(trait)
                 result[trait] += 1/(answers[value].length)
-            }
+            });
         }
         const type = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
 
