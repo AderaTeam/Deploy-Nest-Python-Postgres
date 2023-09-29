@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { UserModule } from './user/user.module';
 import { TestService } from './test/test.service';
+import { TestController } from './test/test.controller';
 
 @Module({
   imports: [UserModule,
@@ -15,7 +16,7 @@ import { TestService } from './test/test.service';
               signOptions: { expiresIn: '60d' },
             }),
             ],
-  controllers: [],
+  controllers: [TestController],
   providers: [...databaseProviders, TestService],
 })
 export class AppModule {}
