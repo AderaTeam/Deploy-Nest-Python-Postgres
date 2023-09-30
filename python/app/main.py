@@ -90,7 +90,17 @@ def analyze_basic(id: str):
     gdp = pd.read_csv('data/gdp_processed.csv')
     userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
     model = tf.keras.saving.load_model("Models/time_series.h5")
-    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist()}
+    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata[0]}
+
+@app.get('/analyzeall')
+def analyze_basic(id: str):
+    cbc_wo_pensia_load = CatBoostClassifier()
+    cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
+    data = pd.read_csv('data/all_in_one_small.csv')    
+    gdp = pd.read_csv('data/gdp_processed.csv')
+    userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
+    model = tf.keras.saving.load_model("Models/time_series.h5")
+    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata[0]}
 
 @app.get('/')
 def analyze_mass():
