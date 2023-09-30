@@ -113,9 +113,9 @@ def analyze_basic():
     #     list(clients_sums.values())
     #     )))
     d = list()
+    model = tf.keras.saving.load_model("Models/time_series.h5")
     for a, b in zip(model.predict(clients_sums2), clients_sums2[:, 0].tolist()):
         d.append({"data": a, "type": b})
-    model = tf.keras.saving.load_model("Models/time_series.h5")
     return d #{"data": model.predict(userdata).tolist(), "type": userdata[:, 0].tolist()}
 
 @app.get('/')
