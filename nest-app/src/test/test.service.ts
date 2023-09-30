@@ -79,6 +79,6 @@ export class TestService {
 
         await this.userService.updateOne({type: type} as UserUpdateDto, userid)
 
-        return await this.userService.getOneById(userid)
+        return {user: await this.userService.getOneById(userid)}
     }   
 }

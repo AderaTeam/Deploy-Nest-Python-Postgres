@@ -6,6 +6,9 @@ import { jwtConstants } from './constants';
 import { UserModule } from './user/user.module';
 import { TestService } from './test/test.service';
 import { TestController } from './test/test.controller';
+import { AnalysisService } from './analysis/analysis.service';
+import { AnalysisController } from './analysis/analysis.controller';
+import { AnalysisModule } from './analysis/analysis.module';
 
 @Module({
   imports: [UserModule,
@@ -15,6 +18,7 @@ import { TestController } from './test/test.controller';
               secret: jwtConstants.secret,
               signOptions: { expiresIn: '60d' },
             }),
+            AnalysisModule,
             ],
   controllers: [TestController],
   providers: [...databaseProviders, TestService],
