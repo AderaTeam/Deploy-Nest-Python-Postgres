@@ -3,6 +3,7 @@ load_dotenv()
 import pickle
 import shutil
 import pandas as pd
+import numpy as np
 import scipy
 from catboost import CatBoostClassifier
 from fastapi import FastAPI, File, UploadFile
