@@ -58,10 +58,7 @@ def mod_user_for_predict_constant_gdp(a, gdp, classificator, create_vector_user,
     u1d = create_vector_user(data)
     class_of_user = classificator.predict(u1d.reshape(1, u1d.shape[0]))
     data_npo_sum = data['npo_sum'].to_numpy().reshape(1, data.shape[0])
-    gdps = list()
-    for i in data.loc[:, ['npo_operation_date_month', 'npo_operation_date_year']].to_numpy():
-        gdps.append(gdp)
-    gdps = np.array(gdps).reshape(1, data.shape[0])
+    gdps = np.full(shape=(1,  data.shape[0]),  fill_value=gdp,  dtype=np.int)
     c = np.append(data_npo_sum, gdps, axis=0)
     f = time_aproximator(c.T, 75).T
     f = f.reshape(1, f.shape[0] * f.shape[1])
@@ -134,7 +131,7 @@ def analyze_basic(typeid: float):
         x = create_vector_user(data.loc[data['clnt_id'] == i])
         if cbc_wo_pensia_load.predict(x.reshape(1, x.shape[0]))[0][0] == float(typeid):
             x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
-            d.append(model.predict(x.reshape(1, x.shape[0]))[0].tolist())
+            d.append({"data": model.predict(x.reshape(1, x.shape[0]))[0].tolist(), "type": typeid})
     return {"result": d} 
 
 @app.get('/analyzecustomgdp/{gdp}')
