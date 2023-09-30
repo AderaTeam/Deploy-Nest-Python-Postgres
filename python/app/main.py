@@ -58,7 +58,7 @@ def mod_user_for_predict_constant_gdp(a, gdp, classificator, create_vector_user,
     u1d = create_vector_user(data)
     class_of_user = classificator.predict(u1d.reshape(1, u1d.shape[0]))
     data_npo_sum = data['npo_sum'].to_numpy().reshape(1, data.shape[0])
-    gdps = np.full(shape=(1,  data.shape[0]),  fill_value=gdp,  dtype=np.int)
+    gdps = np.full(shape=(1,  data.shape[0]),  fill_value=gdp,  dtype=int)
     c = np.append(data_npo_sum, gdps, axis=0)
     f = time_aproximator(c.T, 75).T
     f = f.reshape(1, f.shape[0] * f.shape[1])
