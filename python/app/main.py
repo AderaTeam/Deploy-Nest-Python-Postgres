@@ -80,7 +80,7 @@ def analyze_basic(id):
     data = pd.read_csv('data/all_in_one_small.csv')
     data = data.loc[data.loc[:, "clnt_id"] == id]
     gdp = pd.read_csv('data/gdp_processed.csv')
-    userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
+    userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
     return userdata
 
 @app.get('/')
