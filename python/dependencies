@@ -5,3 +5,14 @@ python-dotenv
 python-multipart
 pandas
 numpy
+torch
+torchmetrics
+tensorflow
+matplotlib
+seaborn
+scikit-learn
+sktime
+scipy
+sweetviz
+transformers
+spacy
