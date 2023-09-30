@@ -1,8 +1,6 @@
 torch
 torchmetrics
 tensorflow
-numpy
-pandas
 matplotlib
 seaborn
 scikit-learn
