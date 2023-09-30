@@ -34,14 +34,7 @@ services:
     links:
       - "postgres:database"
   py:
-    image: python
-    volumes: 
-      - ./python:/app/
-    working_dir: /app
-    command:
-      bash -c "pip install -r ./dependencies &&
-      cd app &&
-      gunicorn -k uvicorn.workers.UvicornWorker main:app -b 0.0.0.0:80"
+    build: .   
     ports:
       - 8003:80
 
