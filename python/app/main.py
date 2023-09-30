@@ -18,7 +18,11 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get('/base')
-def analyze_basic():
+@app.get('/{id}')
+def analyze_basic(id):
 
-    return "Hello"
+    return "Your ID is " + id
+
+@app.get('')
+def analyze_mass():
+    return "Placeholder for mass analysis"
