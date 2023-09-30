@@ -42,4 +42,11 @@ export class User {
         }
     )
     type: string
+
+    @Column(
+        {
+            nullable: true
+        }
+    )
+    isPlan: boolean
 }
