@@ -6,6 +6,6 @@ RUN pip install -r /dependencies
 
 WORKDIR /app
 
-CMD [ "uvicorn", "main:app", "-b", ":80" ]
+CMD [ "uvicorn", "main:app", "-b", "127.0.0.1:80" ]
 
 EXPOSE 80
