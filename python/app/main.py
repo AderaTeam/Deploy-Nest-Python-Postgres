@@ -110,13 +110,12 @@ def analyze_basic(typeid: float):
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
-    data = data.loc[data.loc[:, "clnt_id"] == id]
     model = tf.keras.saving.load_model("Models/time_series.h5")
     gdp = pd.read_csv('data/gdp_processed.csv')
     d = list()
     for i in data['clnt_id'].unique()[:50]:
         x = create_vector_user(data.loc[data['clnt_id'] == i])
-        if cbc_wo_pensia_load.predict(x.reshape(1, x.shape[0])) == float(typeid):
+        if cbc_wo_pensia_load.predict(x.reshape(1, x.shape[0]))[0][0] == float(typeid):
             x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
             d.append(model.predict(x.reshape(1, x.shape[0]))[0].tolist())
     return {"result": d} 
