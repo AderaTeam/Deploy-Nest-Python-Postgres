@@ -24,7 +24,8 @@ app.add_middleware(
 def get_ips():
     data = pd.read_csv('data/all_in_one_small.csv')
     ids = data['npo_accnt_id'].unique()
-    return {"ids": eval(ids)}
+    print(ids)
+    return {"ids": ids}
 
 @app.get('/aanalyzebyid/{id}')
 def analyze_basic(id):
