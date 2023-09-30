@@ -26,8 +26,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-def mod_user_for_predict(a, gdps, space, classificator, create_vector_user, time_aproximator):
+def mod_user_for_predict(a, gdps, space, classificator, create_vector_user):
     data = a.sort_values(by=['npo_operation_date_year', 'npo_operation_date_month', 'npo_operation_date_day'])
+    if data.shape[0] < 3:
+        data = pd.DataFrame(np.repeat(data.values, 30, axis=0))
     u1d = create_vector_user(data)
     class_of_user = classificator.predict(u1d.reshape(1, u1d.shape[0]))
     gdp = list()
@@ -41,10 +43,11 @@ def mod_user_for_predict(a, gdps, space, classificator, create_vector_user, time
     data_npo_sum = data['npo_sum'].to_numpy().reshape(1, data.shape[0])
     gdp = np.array(gdp).reshape(1, data.shape[0])
     c = np.append(data_npo_sum, gdp, axis=0)
-    f = time_aproximator(c.T, 75).T
+    f = signal.resample(c.T, 75).T
     f = f.reshape(1, f.shape[0] * f.shape[1])
     f = np.insert(f, 0, class_of_user)
     return f
+\
 
 def create_vector_user(user_table):
   important_series_columns_for_vector = [
