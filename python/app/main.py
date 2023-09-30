@@ -44,6 +44,28 @@ def mod_user_for_predict(a, gdps, space, classificator, create_vector_user, time
     f = np.insert(f, 0, class_of_user)
     return f
 
+def create_vector_user(user_table):
+  important_series_columns_for_vector = [
+      'npo_sum',
+      'npo_operation_group',
+      'npo_operation_date_year',
+      'npo_operation_date_month',
+      'npo_operation_date_day'
+  ]
+  important_constant_columns_for_voctor = ['accnt_pnsn_schm',
+                                           'npo_accnt_status', 'npo_blnc', 'npo_pmnts_sum', 'npo_pmnts_nmbr',
+                                           'npo_ttl_incm', 'npo_accnt_status_date_year',
+                                           'npo_accnt_status_date_month', 'npo_accnt_status_date_day',
+                                           'npo_frst_pmnt_date_year', 'npo_frst_pmnt_date_month',
+                                           'npo_frst_pmnt_date_day', 'npo_lst_pmnt_date_year',
+                                           'npo_lst_pmnt_date_month', 'npo_lst_pmnt_date_day', 'gndr', 'brth_yr',
+                                           'pstl_code', 'city'
+                                           ]
+  constant_vector_params = user_table.loc[:, important_constant_columns_for_voctor].describe().loc['mean'].to_numpy()
+  series_vector_describe = user_table.loc[:, important_series_columns_for_vector].describe().T
+  series_vector_params = series_vector_describe.loc[:, ['mean', 'std', 'min', 'max']].to_numpy().reshape(20, )
+  return np.insert(np.append(series_vector_params, constant_vector_params), 0, np.mean(series_vector_describe['count']))
+
 @app.get('/ids')
 def get_ips():
     data = pd.read_csv('data/all_in_one_small.csv')
@@ -52,8 +74,6 @@ def get_ips():
 
 @app.get('/analyzebyid/{id}')
 def analyze_basic(id):
-    with open('./functions/create_vector_user.pkl', 'rb') as fp:
-        create_vector_user = pickle.load(fp)
     data = pd.read_csv('data/all_in_one_small.csv')
     data = data.loc[data.loc["npo_accnt_id"] == id]
     userdata = mod_user_for_predict(data, time_aproximator = scipy.signal.resample)
