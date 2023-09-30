@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 app.add_middleware(
@@ -20,7 +18,6 @@ app.add_middleware(
 
 @app.get('/{id}')
 def analyze_basic(id):
-
     return "Your ID is " + id
 
 @app.get('/')
