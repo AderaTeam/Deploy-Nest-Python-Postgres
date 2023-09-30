@@ -5,4 +5,6 @@ export class UserUpdateDto
     password?: string
     role?: string
     type?: string
+    isPlan?: boolean
+
 }

@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -25,7 +25,9 @@ def analyze_basic(id):
 def analyze_mass():
     return "Placeholder for mass analysis"
 
-
+@app.get('/file')
+async def create_upload_file(file: UploadFile):
+    return {"filename": file.filename}    
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=80)
