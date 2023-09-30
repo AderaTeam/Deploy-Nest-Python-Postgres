@@ -83,7 +83,7 @@ def analyze_basic(id):
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
-    data = data.loc[data.loc[:, "clnt_id"] == id]
+    #data = data.loc[data.loc[:, "clnt_id"] == id]
     data.to_csv('file.csv')
     return FileResponse('file.csv')
 
