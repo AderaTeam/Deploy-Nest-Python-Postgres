@@ -23,6 +23,8 @@ def analyze_basic(id):
 
     return "Your ID is " + id
 
-@app.get('')
+@app.get('/')
 def analyze_mass():
     return "Placeholder for mass analysis"
+
+
