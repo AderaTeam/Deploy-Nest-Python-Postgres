@@ -6,7 +6,6 @@ import { jwtConstants } from './constants';
 import { UserModule } from './user/user.module';
 import { TestService } from './test/test.service';
 import { TestController } from './test/test.controller';
-import { UserMiddleware } from './user/user.middleware';
 
 @Module({
   imports: [UserModule,
@@ -20,8 +19,4 @@ import { UserMiddleware } from './user/user.middleware';
   controllers: [TestController],
   providers: [...databaseProviders, TestService],
 })
-export class AppModule {configure(consumer: MiddlewareConsumer) {
-  consumer
-    .apply(UserMiddleware)
-    .forRoutes(TestController);
-}}
+export class AppModule {}

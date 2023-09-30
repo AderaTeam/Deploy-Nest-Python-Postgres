@@ -67,11 +67,7 @@ export class TestService {
         }
         for (const value in data)
         {
-            Logger.log(value)
-
-
             answers[value][data[value]].forEach(trait => {
-                Logger.log(trait)
                 result[trait] += 1/(answers[value][data[value]].length)
             });
         }
