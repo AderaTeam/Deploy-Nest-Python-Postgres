@@ -75,7 +75,7 @@ def create_vector_user(user_table):
 @app.get('/ids')
 def get_ips():
     data = pd.read_csv('data/all_in_one_small.csv')
-    ids = list(data['npo_accnt_id'].unique())
+    ids = list(data['clnt_id'].unique())
     return {"ids": ids}
 
 @app.get('/analyzebyid/{id}')
@@ -85,10 +85,7 @@ def analyze_basic(id: str):
     data = pd.read_csv('data/all_in_one_small.csv')
 
     data = data.loc[data.loc[:, "clnt_id"] == id]
-    data.to_csv('file.csv')
-    return FileResponse('file.csv')
-
-    print(data)
+  
     gdp = pd.read_csv('data/gdp_processed.csv')
     userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
     return userdata
