@@ -88,7 +88,7 @@ def analyze_basic(id: str):
   
     gdp = pd.read_csv('data/gdp_processed.csv')
     userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
-    return userdata
+    return {"data": userdata}
 
 @app.get('/')
 def analyze_mass():
