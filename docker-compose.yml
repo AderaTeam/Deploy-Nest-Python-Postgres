@@ -34,7 +34,7 @@ services:
     links:
       - "postgres:database"
   py:
-    build: .   
+    build: ./python/app   
     ports:
       - 8003:80
 
