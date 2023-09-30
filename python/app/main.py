@@ -51,14 +51,14 @@ def mod_user_for_predict(a, gdps, space, classificator, create_vector_user, time
     f = np.insert(f, 0, class_of_user)
     return f
 
-def mod_user_for_predict_constant_gdp(a, gdp, classificator, create_vector_user, time_aproximator):
+def mod_user_for_predict_constant_gdp(a, gdp: int, classificator, create_vector_user, time_aproximator):
     data = a.sort_values(by=['npo_operation_date_year', 'npo_operation_date_month', 'npo_operation_date_day'])
     if data.shape[0] < 3:
         data = pd.DataFrame(np.repeat(data.values, 30, axis=0))
     u1d = create_vector_user(data)
     class_of_user = classificator.predict(u1d.reshape(1, u1d.shape[0]))
     data_npo_sum = data['npo_sum'].to_numpy().reshape(1, data.shape[0])
-    gdps = np.full(shape=(data.shape[0]),  fill_value=gdp,  dtype=int).reshape(1, data.shape[0])
+    gdps = np.full(shape=(1,  data.shape[0]),  fill_value=gdp,  dtype=float)
     c = np.append(data_npo_sum, gdps, axis=0)
     f = time_aproximator(c.T, 75).T
     f = f.reshape(1, f.shape[0] * f.shape[1])
@@ -139,7 +139,6 @@ def analyze_basic(gdp: float):
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
-    gdp = pd.read_csv('data/gdp_processed.csv')
     model = tf.keras.saving.load_model("Models/time_series.h5")
     d = list()
     for i in data['clnt_id'].unique()[:50]:
