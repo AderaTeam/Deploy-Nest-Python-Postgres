@@ -37,4 +37,6 @@ services:
     build: ./python   
     ports:
       - 8003:80
+    volumes:
+      - ./python/app:/app
 

@@ -1,5 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
+import pickle
+import shutil
+import pandas as pd
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -19,15 +22,32 @@ app.add_middleware(
 
 @app.get('/{id}')
 def analyze_basic(id):
-    return "Your ID is " + id
+    with open('functions/mod_user_for_predict.pkl', 'wb') as fp:
+        mod_user_for_predict = pickle.loads(fp)
+    with open('UsefullFuns/create_vector_user.pkl', 'wb') as fp:
+        create_vector_user = pickle.loads(fp)
+    data = pd.read_csv('data/all_in_one_small.csv')
+    data = data.loc[data.loc["npo_accnt_id"] == id]
+    userdata = mod_user_for_predict(data)
+    return create_vector_user(userdata)
 
 @app.get('/')
 def analyze_mass():
     return "Placeholder for mass analysis"
 
+@app.get('/ips')
+def get_ips():
+    data = pd.read_csv('data/all_in_one_small.csv')
+    ids = data['npo_accnt_id'].unique
+    return ids
 @app.post('/file')
 async def create_upload_file(file: UploadFile):
-    return {"filename": file.filename}    
+    try:
+        with destination.open("wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    finally:
+        file.file.close()  
+        return "ok"
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=80)

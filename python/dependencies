@@ -3,3 +3,16 @@ gunicorn
 fastapi
 python-dotenv
 python-multipart
+torch
+torchmetrics
+tensorflow
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+sktime
+scipy
+sweetviz
+transformers
+spacy
