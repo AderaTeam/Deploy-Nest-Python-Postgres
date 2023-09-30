@@ -84,9 +84,8 @@ def analyze_basic(id):
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
     data = data.loc[data.loc[:, "clnt_id"] == id]
-    with tempfile.NamedTemporaryFile() as tmp:
-        data.to_csv(tmp.name)
-        return FileResponse(tmp.name)
+    data.to_csv('file.csv')
+    return FileResponse('file.csv')
 
     print(data)
     gdp = pd.read_csv('data/gdp_processed.csv')
