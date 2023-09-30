@@ -12,6 +12,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=
     [
+        "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://178.170.192.87:8000",
     ],
@@ -26,7 +27,7 @@ def get_ips():
     ids = list(data['npo_accnt_id'].unique())
     return {"ids": ids}
 
-@app.get('/aanalyzebyid/{id}')
+@app.get('/analyzebyid/{id}')
 def analyze_basic(id):
     with open('functions/mod_user_for_predict.pkl', 'rb') as fp:
         mod_user_for_predict = pickle.load(fp)
