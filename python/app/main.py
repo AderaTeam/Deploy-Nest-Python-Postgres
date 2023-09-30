@@ -93,7 +93,7 @@ def analyze_basic(id: str):
     return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata[0]}
 
 @app.get('/analyzeall')
-def analyze_basic(id: str):
+def analyze_basic():
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')    
