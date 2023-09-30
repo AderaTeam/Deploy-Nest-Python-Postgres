@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import tensorflow as tf
-
+rabbits = {"3": "Осторожный кролик", "1": "Смелый кролик", "2": "Предприимчивый кролик", "0": "Открытый кролик"}
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -97,23 +97,29 @@ def analyze_basic():
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
-    # clients_sums = dict()
-    clients_sums2 = None
     gdp = pd.read_csv('data/gdp_processed.csv')
     model = tf.keras.saving.load_model("Models/time_series.h5")
     d = list()
     for i in data['clnt_id'].unique()[:50]:
-        # clients_sums[i] = data.loc[data['clnt_id'] == i]
         x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
         d.append({'data': model.predict(x.reshape(1, x.shape[0])).tolist(), 'type': x[0]})
-    # userdata = np.array(list(map(
-    #     lambda a: mod_user_for_predict(a, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample),
-    #     list(clients_sums.values())
-    #     )))
-    # model = tf.keras.saving.load_model("Models/time_series.h5")
-    # for a, b in zip(model.predict(clients_sums2).tolist(), clients_sums2[:, 0].tolist()):
-    #     d.append({"data": a, "type": b})
-    return {"data": d} #{"data": model.predict(userdata).tolist(), "type": userdata[:, 0].tolist()}
+    return {"result": d} 
+
+@app.get('/analyzetype/{typename}')
+def analyze_basic():
+    cbc_wo_pensia_load = CatBoostClassifier()
+    cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
+    data = pd.read_csv('data/all_in_one_small.csv')
+    data = data.loc[data.loc[:, "clnt_id"] == id]
+    gdp = pd.read_csv('data/gdp_processed.csv')
+    model = tf.keras.saving.load_model("Models/time_series.h5")
+    d = list()
+    for i in data['clnt_id'].unique()[:50]:
+        x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
+        d.append({'data': model.predict(x.reshape(1, x.shape[0])).tolist(), 'type': x[0]})
+    return {"result": d} 
+
+
 
 @app.get('/')
 def analyze_mass():
