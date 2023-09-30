@@ -25,7 +25,7 @@ def analyze_basic(id):
 def analyze_mass():
     return "Placeholder for mass analysis"
 
-@app.get('/file')
+@app.post('/file')
 async def create_upload_file(file: UploadFile):
     return {"filename": file.filename}    
 
