@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class AnalysisService {
 
     public analyzeSingle(id: number): Observable<any>
     {
+        Logger.log(process.env.ANALYZE_URL)
         return this.httpService.get(process.env.ANALYZE_URL + `/${id}`)
     }
     public analyzeMass(): Observable<any>
