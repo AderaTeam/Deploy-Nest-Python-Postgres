@@ -98,7 +98,7 @@ def analyze_basic():
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
     data = pd.read_csv('data/all_in_one_small.csv')
     clients_sums = dict()
-    for i in data['clnt_id'][50]:
+    for i in data['clnt_id'][:50]:
         clients_sums[i] = data.loc[data['clnt_id'] == i]
     gdp = pd.read_csv('data/gdp_processed.csv')
     userdata = np.array(list(map(
