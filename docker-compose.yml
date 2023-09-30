@@ -41,7 +41,7 @@ services:
     command:
       bash -c "pip install -r ./dependencies
       && cd app 
-      && gunicorn -k uvicorn.workers.UvicornWorker main:app -b :80"
+      && gunicorn -k uvicorn.workers.UvicornWorker main:app -b 0.0.0.0:80"
     ports:
       - 8003:80
 
