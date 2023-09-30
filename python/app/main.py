@@ -106,7 +106,7 @@ def analyze_basic():
         list(clients_sums.values())
         )))
     model = tf.keras.saving.load_model("Models/time_series.h5")
-    return {"data": model.predict(userdata).tolist(), "type": userdata[:, 0].tolist}
+    return {"data": model.predict(userdata).tolist(), "type": userdata[:, 0].tolist()}
 
 @app.get('/')
 def analyze_mass():
