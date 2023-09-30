@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 import scipy
 from catboost import CatBoostClassifier
-from fastapi import FastAPI, File, UploadFile, FileResponse
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
