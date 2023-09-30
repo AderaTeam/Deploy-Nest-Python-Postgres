@@ -86,7 +86,7 @@ def analyze_basic(id):
     data = data.loc[data.loc[:, "clnt_id"] == id]
     with tempfile.NamedTemporaryFile() as tmp:
         data.to_csv(tmp.name)
-        return FileResponse(tmp.file)
+        return FileResponse(tmp.name)
 
     print(data)
     gdp = pd.read_csv('data/gdp_processed.csv')
