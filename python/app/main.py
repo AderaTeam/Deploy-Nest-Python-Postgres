@@ -96,11 +96,17 @@ def analyze_basic(id: str):
 def analyze_basic():
     cbc_wo_pensia_load = CatBoostClassifier()
     cbc_wo_pensia_load.load_model('Models/classificator_catboost_wo_pensia.pkl')
-    data = pd.read_csv('data/all_in_one_small.csv')    
+    data = pd.read_csv('data/all_in_one_small.csv')
+    clients_sums = dict()
+    for i in data['clnt_id'][50]:
+        clients_sums[i] = data.loc[data['clnt_id'] == i]
     gdp = pd.read_csv('data/gdp_processed.csv')
-    userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
+    userdata = np.array(list(map(
+        lambda a: mod_user_for_predict(a, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample),
+        list(clients_sums.values())
+        )))
     model = tf.keras.saving.load_model("Models/time_series.h5")
-    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata}
+    return {"data": model.predict(userdata).tolist(), "type": userdata[:, 0].tolist()}
 
 @app.get('/')
 def analyze_mass():
