@@ -7,3 +7,5 @@ RUN pip install -r /dependencies
 WORKDIR /app
 
 CMD [ "gunicorn", "-k", "uvicorn.workers.UvicornWorker", "main:app", "-b", ":80" ]
+
+EXPOSE 80
