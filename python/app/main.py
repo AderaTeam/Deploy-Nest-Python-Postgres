@@ -3,6 +3,7 @@ load_dotenv()
 import pickle
 import shutil
 import pandas as pd
+import scipy
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -23,6 +24,25 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+def mod_user_for_predict(a, gdps, space, classificator, create_vector_user, time_aproximator):
+    data = a.sort_values(by=['npo_operation_date_year', 'npo_operation_date_month', 'npo_operation_date_day'])
+    u1d = create_vector_user(data)
+    class_of_user = classificator.predict(u1d.reshape(1, u1d.shape[0]))
+    gdp = list()
+    for i in data.loc[:, ['npo_operation_date_month', 'npo_operation_date_year']].to_numpy():
+        res = gdps.loc[(gdps['month'] + space['month'] == i[0])
+                       & (gdps['year'] + space['year'] == i[1])]
+        if res.shape[0]:
+            gdp.append(res['gdv'].median())
+        else:
+            gdp.append(-1)
+    data_npo_sum = data['npo_sum'].to_numpy().reshape(1, data.shape[0])
+    gdp = np.array(gdp).reshape(1, data.shape[0])
+    c = np.append(data_npo_sum, gdp, axis=0)
+    f = time_aproximator(c.T, 75).T
+    f = f.reshape(1, f.shape[0] * f.shape[1])
+    f = np.insert(f, 0, class_of_user)
+    return f
 
 @app.get('/ids')
 def get_ips():
@@ -32,13 +52,11 @@ def get_ips():
 
 @app.get('/analyzebyid/{id}')
 def analyze_basic(id):
-    with open('./functions/mod_user_for_predict.pkl', 'rb') as fp:
-        mod_user_for_predict = pickle.load(fp)
     with open('./functions/create_vector_user.pkl', 'rb') as fp:
         create_vector_user = pickle.load(fp)
     data = pd.read_csv('data/all_in_one_small.csv')
     data = data.loc[data.loc["npo_accnt_id"] == id]
-    userdata = mod_user_for_predict(data)
+    userdata = mod_user_for_predict(data, time_aproximator = scipy.signal.resample)
     return create_vector_user(userdata)
 
 @app.get('/')
