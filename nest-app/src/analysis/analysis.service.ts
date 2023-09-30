@@ -10,11 +10,11 @@ export class AnalysisService {
 
     public analyzeSingle(id: number): Observable<any>
     {
-        Logger.log(process.env.ANALYZE_URL)
-        return this.httpService.get(process.env.ANALYZE_URL + `/${id}`)
+        Logger.log(process.env.ANALYSIS_URL)
+        return this.httpService.get(process.env.ANALYSIS_URL + `/${id}`)
     }
     public analyzeMass(): Observable<any>
     {
-        return this.httpService.get(process.env.ANALYZE_URL + `/`)
+        return this.httpService.get(process.env.ANALYSIS_URL + `/`)
     }
 }
