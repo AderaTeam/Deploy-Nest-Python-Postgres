@@ -77,6 +77,8 @@ export class TestService {
 
         const userid = this.jwtService.verify(jwt).id
 
-        return this.userService.updateOne({type: type} as UserUpdateDto, userid)
+        await this.userService.updateOne({type: type} as UserUpdateDto, userid)
+
+        return await this.userService.getOneById(userid)
     }   
 }
