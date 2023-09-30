@@ -23,9 +23,9 @@ app.add_middleware(
 @app.get('/{id}')
 def analyze_basic(id):
     with open('functions/mod_user_for_predict.pkl', 'wb') as fp:
-        mod_user_for_predict = pickle.loads(fp)
+        mod_user_for_predict = pickle.load(fp)
     with open('UsefullFuns/create_vector_user.pkl', 'wb') as fp:
-        create_vector_user = pickle.loads(fp)
+        create_vector_user = pickle.load(fp)
     data = pd.read_csv('data/all_in_one_small.csv')
     data = data.loc[data.loc["npo_accnt_id"] == id]
     userdata = mod_user_for_predict(data)
