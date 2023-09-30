@@ -100,7 +100,7 @@ def analyze_basic():
     gdp = pd.read_csv('data/gdp_processed.csv')
     userdata = mod_user_for_predict (data, gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
     model = tf.keras.saving.load_model("Models/time_series.h5")
-    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata[0]}
+    return {"data": model.predict(userdata.reshape(1, userdata.shape[0])).tolist(), "type": userdata}
 
 @app.get('/')
 def analyze_mass():
