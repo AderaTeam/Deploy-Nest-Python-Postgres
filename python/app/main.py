@@ -102,7 +102,7 @@ def analyze_basic():
     gdp = pd.read_csv('data/gdp_processed.csv')
     model = tf.keras.saving.load_model("Models/time_series.h5")
     d = list()
-    for i in data['clnt_id'][:50]:
+    for i in data['clnt_id'].unique()[:50]:
         # clients_sums[i] = data.loc[data['clnt_id'] == i]
         x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
         d.append({'data': model.predict(x.reshape(1, x.shape[0])).tolist(), 'type': x[0]})
