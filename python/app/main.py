@@ -20,10 +20,10 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get('/ips')
+@app.get('/ids')
 def get_ips():
     data = pd.read_csv('data/all_in_one_small.csv')
-    ids = data['npo_accnt_id'].unique
+    ids = data['npo_accnt_id'].unique()
     return ids
 
 @app.get('/aanalyzebyid/{id}')
