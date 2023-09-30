@@ -102,7 +102,7 @@ def analyze_basic():
     gdp = pd.read_csv('data/gdp_processed.csv')
     for i in data['clnt_id'][:50]:
         # clients_sums[i] = data.loc[data['clnt_id'] == i]
-        if clients_sums2 == None:
+        if clients_sums2 is None:
             x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
             clients_sums2 = x.reshape(1, x.shape[0])
         else:
