@@ -75,7 +75,7 @@ def get_ips():
 @app.get('/analyzebyid/{id}')
 def analyze_basic(id):
     data = pd.read_csv('data/all_in_one_small.csv')
-    data = data.loc[data.loc["npo_accnt_id"] == id]
+    data = data.loc[data.loc["clnt_id"] == id]
     userdata = mod_user_for_predict(data, time_aproximator = scipy.signal.resample)
     return create_vector_user(userdata)
 
