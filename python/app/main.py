@@ -13,8 +13,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import tensorflow as tf
 from pydantic import BaseModel
+from typing import List
 class Item(BaseModel):
-    lists: list()
+    lists: List[List[str]]
 rabbits = {"3": "Осторожный кролик", "1": "Смелый кролик", "2": "Предприимчивый кролик", "0": "Открытый кролик"}
 app = FastAPI()
 app.add_middleware(
