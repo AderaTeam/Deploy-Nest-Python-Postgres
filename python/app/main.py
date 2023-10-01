@@ -14,7 +14,7 @@ import uvicorn
 import tensorflow as tf
 from pydantic import BaseModel
 class Item(BaseModel):
-    lists: list(list(float))
+    lists: list()
 rabbits = {"3": "Осторожный кролик", "1": "Смелый кролик", "2": "Предприимчивый кролик", "0": "Открытый кролик"}
 app = FastAPI()
 app.add_middleware(
