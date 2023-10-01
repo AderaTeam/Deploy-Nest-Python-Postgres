@@ -135,7 +135,7 @@ def analyze_basic(typeid: float):
         x = create_vector_user(data.loc[data['clnt_id'] == i])
         if cbc_wo_pensia_load.predict(x.reshape(1, x.shape[0]))[0][0] == float(typeid):
             x = mod_user_for_predict(data.loc[data['clnt_id'] == i], gdp, space={'month': 4, 'year': 1}, classificator=cbc_wo_pensia_load, create_vector_user=create_vector_user, time_aproximator = scipy.signal.resample)
-            d.append({"data": model.predict(x.reshape(1, x.shape[0]))[0].tolist(), "type": typeid})
+            d.append({"data": [model.predict(x.reshape(1, x.shape[0]))[0].tolist()], "type": typeid})
     return {"result": d} 
 
 @app.get('/analyzecustomgdp/{gdp}')
