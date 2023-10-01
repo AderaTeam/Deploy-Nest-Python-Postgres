@@ -12,6 +12,9 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import tensorflow as tf
+from pydantic import BaseModel
+class Item(BaseModel):
+    lists: list(list(float))
 rabbits = {"3": "Осторожный кролик", "1": "Смелый кролик", "2": "Предприимчивый кролик", "0": "Открытый кролик"}
 app = FastAPI()
 app.add_middleware(
@@ -149,6 +152,11 @@ def analyze_basic(gdp: float):
 @app.get('/')
 def analyze_mass():
     return "Placeholder for mass analysis"
+
+@app.post('means')
+def calculate_means(item: Item):
+    column_average = [sum(sub_list) / len(sub_list) for sub_list in zip(*(item.lists))]
+    return {"average": column_average}
 
 
 @app.post('/file')
