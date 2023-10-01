@@ -154,7 +154,7 @@ def analyze_basic(gdp: float):
 def analyze_mass():
     return "Placeholder for mass analysis"
 
-@app.post('means')
+@app.post('/means')
 def calculate_means(item: Item):
     column_average = [sum(sub_list) / len(sub_list) for sub_list in zip(*(item.lists))]
     return {"average": column_average}
